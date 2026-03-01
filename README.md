@@ -31,9 +31,3 @@ commerce frameworks/platforms.
 - The page must be fully responsive.
 - It should function and display properly on both desktop and mobile devices.
 
-## Submission
-
-Качете в moodle `.zip` архив на познатите директории `src` и `test`, както и README документацията. Ако пакетирате допълнителни файлове (които не са .java), те трябва да са в корена на архива, на нивото на `src` и `test`.
-Проектът ви трябва да е качен в moodle не по-късно от 18:00 в деня преди датата на защитата.
-
-Успех!
