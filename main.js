@@ -59,15 +59,18 @@ function renderProducts() {
     let html = "";
 
     visible.forEach(product => {
+        const priceDisplay = product.discount > 0
+            ? `$${product.price - product.discount} <s>$${product.price}</s>`
+            : `$${product.price}`;
         html += `
         <div class="product-card">
             <img src="${product.image}" alt="${product.name}">
             <h3>${product.name}</h3>
             <p>${product.description}</p>
             <p>Color: ${product.color}</p>
-            <p>Price: ${product.price}</p>
-            ${product.discount > 0 ? `<p>Discount: $${product.discount}</p>` : ""}
-            <div class="stars">${getStars(product.rating)}</div>      
+            ${product.discount > 0 ? `<span class="discount-badge">Save $${product.discount}</span>` : ""}
+            <p class="price">${priceDisplay}</p>
+            <div class="stars">${getStars(product.rating)}</div>
             <button onclick="addToCart()">Add to Cart</button>
         </div>
         `;
@@ -88,19 +91,6 @@ function renderProducts() {
 
 function loadMore() {
     currentIndex += itemsPerPage;
-    renderProducts();
-}
-
-function applyFilters() {
-    const discounted = document.querySelector('[value="discounted"]').checked;
-
-    let filtered = products;
-
-    if (discounted) {
-        filtered = filtered.filter(p => p.discount > 0);
-    }
-
-    // After filtering, we still use renderProducts but need category context
     renderProducts();
 }
 
