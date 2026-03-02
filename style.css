@@ -11,6 +11,9 @@
     --radius-lg:12px;
     --shadow:0 1px 3px rgba(0,0,0,0.08);
     --space-s: 8px;
+    --space-xl:32px;
+    --color-border:#e5e7eb;
+
 }
 
 body {
@@ -203,6 +206,40 @@ product-card h3 {
 .product-card button {
     margin-top: auto;
     width: 100%;
+}
+
+#load-more {
+    display:block;
+    margin:var(--space-xl) auto 0;
+    min-width:140px;
+}
+
+.footer {
+    background:var(--color-card);
+    padding:var(--space-l);
+    margin-top:var(--space-xl);
+    box-shadow:0 -1px 0 var(--color-border);
+}
+
+.footer-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+}
+
+.footer-text {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+}
+
+.footer-links {
+    display: flex;
+    gap: var(--space-l);
 }
 
 @media (max-width: 768px) {

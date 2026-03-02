@@ -1,17 +1,24 @@
 let currentIndex = 0;
 const itemsPerPage = 20;
 let currentCategory = "bags";
-let activeFilteredProducts=[];
+let activeFilteredProducts = null;
 
-const categoryInfo={
-    bags:{
-        title:"Bags",
-        description:"Explore our collection of stylish and functional bags, perfect for any occasion. From chic handbags to durable backpacks, find the ideal accessory to complement your look and carry your essentials with ease."},
+const categoryInfo = {
+    bags: {
+        title: "Bags",
+        description: "Explore our collection of stylish and functional bags."
+    },
+    shoes: {
+        title: "Shoes",
+        description: "Discover our range of fashionable and comfortable shoes."
+    }
+};
 
-    shoes:{
-        title:"Shoes",
-        description:"Discover our range of fashionable and comfortable shoes, designed to elevate your style. From trendy sneakers to elegant heels, find the perfect pair to step out in confidence and make a statement with every stride."}
-    };
+const priceRanges = {
+    low:    { min: 0, max: 50 },
+    medium: { min: 50, max: 100 },
+    high:   { min: 100, max: Infinity }
+};
 
 function addToCart() {
     alert("Product added to cart!");
@@ -20,29 +27,21 @@ function addToCart() {
 function showCategory(category) {
     currentCategory = category;
     currentIndex = 0;
-    activeFilteredProducts=[];
+    activeFilteredProducts = null;
 
-    document.querySelectorAll(".filter-color, .filter-price").forEach(cb => cb.checked=false);
-    document.getElementById("discount-only").checked=false;
-    
-    const title=document.getElementById("category-title");
-    const description=document.getElementById("category-description");
+    document.querySelectorAll("input[type='checkbox']")
+        .forEach(cb => cb.checked = false);
 
-    if (categoryInfo[category]) {
-        title.textContent=categoryInfo[category].title;
-        description.textContent=categoryInfo[category].description;
-    }
-    else {
-        title.textContent="";
-        description.textContent="";
-    }
+    const info = categoryInfo[category] || {};
+    document.getElementById("category-title").textContent = info.title || "";
+    document.getElementById("category-description").textContent = info.description || "";
+
     renderProducts();
 }
 
 function getStars(rating) {
-    const fullStars=Math.floor(rating);
-    const emptyStars=5-fullStars;
-    return "★".repeat(fullStars)+"☆".repeat(emptyStars);
+    const full = Math.floor(rating);
+    return "★".repeat(full) + "☆".repeat(5 - full);
 }
 
 function renderProducts() {
@@ -50,43 +49,36 @@ function renderProducts() {
     const productCount = document.getElementById("product-count");
     const loadMoreBtn = document.getElementById("load-more");
 
-    const filtered = activeFilteredProducts.length > 0
-    ? activeFilteredProducts
-    : products.filter(p => p.category === currentCategory);
+    const baseProducts = activeFilteredProducts ??
+        products.filter(p => p.category === currentCategory);
 
-    const visible = filtered.slice(0, currentIndex + itemsPerPage);
+    const visible = baseProducts.slice(0, currentIndex + itemsPerPage);
 
-    let html = "";
-
-    visible.forEach(product => {
-        const priceDisplay = product.discount > 0
-            ? `$${product.price - product.discount} <s>$${product.price}</s>`
+    productList.innerHTML = visible.map(product => {
+        const finalPrice = product.price - product.discount;
+        const priceHTML = product.discount > 0
+            ? `$${finalPrice} <s>$${product.price}</s>`
             : `$${product.price}`;
-        html += `
+
+        return `
         <div class="product-card">
             <img src="${product.image}" alt="${product.name}">
             <h3>${product.name}</h3>
             <p>${product.description}</p>
             <p>Color: ${product.color}</p>
             ${product.discount > 0 ? `<span class="discount-badge">Save $${product.discount}</span>` : ""}
-            <p class="price">${priceDisplay}</p>
+            <p class="price">${priceHTML}</p>
             <div class="stars">${getStars(product.rating)}</div>
             <button onclick="addToCart()">Add to Cart</button>
         </div>
         `;
-    });
-
-    productList.innerHTML = html;
+    }).join("");
 
     productCount.textContent =
-        `${visible.length} out of ${filtered.length} products displayed.`;
+        `${visible.length} out of ${baseProducts.length} products displayed.`;
 
-    // Hide Load More when all items are shown
-    if (visible.length >= filtered.length) {
-        loadMoreBtn.style.display = "none";
-    } else {
-        loadMoreBtn.style.display = "block";
-    }
+    loadMoreBtn.style.display =
+        visible.length >= baseProducts.length ? "none" : "block";
 }
 
 function loadMore() {
@@ -94,40 +86,51 @@ function loadMore() {
     renderProducts();
 }
 
-// Load first category on page load
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
     showCategory("bags");
 });
 
 function applyFilters() {
 
-    const selectedColors=Array.from(
-        document.querySelectorAll('.filter-color:checked')
-    ).map(cb => cb.value);
+    const selectedColors = [...document.querySelectorAll('.filter-color:checked')]
+        .map(cb => cb.value);
 
-    const selectedPrices=Array.from(
-        document.querySelectorAll(".filter-price:checked")
-    ).map(cb=>cb.value);
+    const selectedPrices = [...document.querySelectorAll('.filter-price:checked')]
+        .map(cb => cb.value);
 
-    const discountOnly=document.getElementById("discount-only").checked;
+    const discountOnly =
+        document.getElementById("discount-only").checked;
 
-    //start from current category
-    let filtered=products.filter(p=>p.category === currentCategory);
+    let filtered = products.filter(
+        p => p.category === currentCategory
+    );
 
-    //filter by color
-    if (selectedColors.length>0){
-        filtered=filtered.filter(p=>
+    // Filter by color
+    if (selectedColors.length) {
+        filtered = filtered.filter(p =>
             selectedColors.includes(p.color)
         );
     }
 
-    //filter by price range
-    if (selectedPrices.length>0) {
-        filtered=filtered.filter(p=>p.discount>0);
+    // Filter by price range
+    if (selectedPrices.length) {
+        filtered = filtered.filter(product => {
+            const finalPrice = product.price - product.discount;
+
+            return selectedPrices.some(level => {
+                const range = priceRanges[level];
+                return finalPrice >= range.min && finalPrice < range.max;
+            });
+        });
     }
 
-    activeFilteredProducts=filtered;
-    currentIndex=0;
+    // Filter by discount
+    if (discountOnly) {
+        filtered = filtered.filter(p => p.discount > 0);
+    }
+
+    activeFilteredProducts = filtered;
+    currentIndex = 0;
 
     renderProducts();
 }
