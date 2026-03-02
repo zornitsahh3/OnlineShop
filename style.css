@@ -18,6 +18,7 @@
 
 body {
     margin: 0;
+    padding:0;
     font-family: "Segoe UI",system-ui,--apple-system sans-serif;
     background-color:var(--color-bg);
     color: var(--color-text);
@@ -243,7 +244,32 @@ product-card h3 {
 }
 
 @media (max-width: 768px) {
+    .layout {
+        flex-direction: column;
+        padding: var(--space-m);
+    }
+
+    .sidebar {
+        width: 100%;
+        display: flex;
+        gap: var(--space-m);
+        flex-wrap: wrap;
+    }
+
+    .filter,
+    .sort {
+        flex: 1;
+        min-width: 160px;
+    }
     .logo {
         width:120px;
+    }
+        .product-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-m);
+    }
+
+    .site-header {
+        padding: var(--space-m);
     }
 }
