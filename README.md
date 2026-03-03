@@ -13,7 +13,7 @@ compare options and make informed purchasing decisions.
 The task should focus solely on the front-end implementation; hosting the application on a server is not
 required. For demonstration purposes, you may use a sample data structure of your choice (e.g., JSON).
 
-## General Requirements
+# General Requirements
 
 Front-End Focus Only:
 
@@ -28,7 +28,7 @@ commerce frameworks/platforms.
 - The page must be fully responsive.
 - It should function and display properly on both desktop and mobile devices.
 
-### General Solution Overview
+## General Solution Overview
 he project delivers a **front-end-only Product Listing Page** for a fashion e-commerce store (Bags & Shoes), meeting the required sections and behaviour.
 
 - **Sticky header** with logo, store name (“The Fashion Store”), and a **navigation menu** with two categories (Bags, Shoes). Clicking a category loads the corresponding products; Bags is loaded by default.
