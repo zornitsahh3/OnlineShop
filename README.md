@@ -28,8 +28,8 @@ commerce frameworks/platforms.
 - The page must be fully responsive.
 - It should function and display properly on both desktop and mobile devices.
 
-## General Solution Overview
-he project delivers a **front-end-only Product Listing Page** for a fashion e-commerce store (Bags & Shoes), meeting the required sections and behaviour.
+## 1. General Solution Overview
+The project delivers a **front-end-only Product Listing Page** for a fashion e-commerce store (Bags & Shoes), meeting the required sections and behaviour.
 
 - **Sticky header** with logo, store name (“The Fashion Store”), and a **navigation menu** with two categories (Bags, Shoes). Clicking a category loads the corresponding products; Bags is loaded by default.
 - **Left-hand filter sidebar** with:
@@ -81,7 +81,7 @@ Sample data is a JavaScript array of product objects (in `products_list.js`) wit
 ## 4. Challenges encountered during development
 
 - **Product list and images**  
-  The first idea was to build the product list manually and use locally prepared images. That became impractical for a large number of products. The approach was changed to a more automated one: a Node.js script was used to generate or extend the product list (e.g. `node products_list.js`). The source code of that generator is no longer in the repository; only the resulting `products` array (in `products_list.js`) is used by the page. For images, different options were considered (e.g. random image APIs). In the end, **Unsplash** (https://images.unsplash.com) was used so that product images could be referenced by URL without storing image files in the project, while still having realistic thumbnails for bags and shoes.
+  The first idea was to build the product list manually and use locally prepared images. That became impractical for a large number of products. The approach was changed to a more automated one: a Node.js script was used to generate the product list. The source code of that generator is `generate_products_list.js`. For images, different options were considered (e.g. random image APIs). In the end, **Unsplash** (https://images.unsplash.com) was used so that product images could be referenced by URL without storing image files in the project, while still having realistic thumbnails for bags and shoes.
 
 - **Responsiveness on mobile**  
   Making the page work well on small screens took noticeable effort. Issues included the product grid (fixed 4 columns and image sizes) and the sidebar/layout on narrow viewports. This was addressed with media queries: at 768px the layout stacks (sidebar above products, grid to 2 columns, flexible images), and at 480px the grid becomes a single column. Tweaks to spacing and image sizing (e.g. max-width and aspect-ratio) were needed so that content did not overflow and remained readable on phones.
