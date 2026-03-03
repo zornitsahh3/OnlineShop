@@ -52,7 +52,31 @@ function renderProducts() {
     const baseProducts = activeFilteredProducts ??
         products.filter(p => p.category === currentCategory);
 
-    const visible = baseProducts.slice(0, currentIndex + itemsPerPage);
+    let sortedProducts=[...baseProducts];
+
+    const sortValue=document.getElementById("sort-select")?.value;
+
+    if (sortValue === "az") {
+        sortedProducts.sort((a,b) => a.name.localeCompare(b.name));
+    }
+
+    if (sortValue === "za") {
+        sortedProducts.sort((a,b) => b.name.localeCompare(a.name));
+    }
+
+    if (sortValue === "priceLow") {
+    sortedProducts.sort((a, b) =>
+        (a.price - a.discount) - (b.price - b.discount)
+    );
+    }
+
+    if (sortValue === "priceHigh") {
+        sortedProducts.sort((a, b) =>
+            (b.price - b.discount) - (a.price - a.discount)
+        );
+    }
+
+    const visible = sortedProducts.slice(0, currentIndex + itemsPerPage);
 
     productList.innerHTML = visible.map(product => {
         const finalPrice = product.price - product.discount;
@@ -89,6 +113,9 @@ function loadMore() {
 document.addEventListener("DOMContentLoaded", () => {
     showCategory("bags");
 });
+
+document.getElementById("sort-select")
+    .addEventListener("change", renderProducts);
 
 function applyFilters() {
 

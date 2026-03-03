@@ -40,32 +40,40 @@
 
                     <button onclick="applyFilters()">Apply</button><br>   
                  </div>
-
-                <div class="sort">
-                    <h3>Sort</h3>
-                    <label>
-                        <input type="checkbox" value="price-low">Price: Low to High
-                    </label><br>
-                    <label>
-                        <input type="checkbox" value="price-high">Price: High to Low
-                    </label><br>
-                    <label>
-                        <input type="checkbox" value="rating">Highest Rating
-                    </label><br> 
-                </div>
              </aside>   
                 <!-- Products area (to the right)-->
-                 <div class="products-area">
-                    <nav class="nav-menu">
-                        <button onclick="showCategory('bags')">Bags</button>
-                        <button onclick="showCategory('shoes')">Shoes</button>
-                    </nav>
-                    <div id="category-title"></div>
-                    <div id="category-description"></div>
-                    <div id="product-count"></div>
-                    <div id="product-list" class="product-grid"></div>
-                    <button id="load-more" onclick="loadMore()">Load More</button>
+            <div class="products-area">
+
+                <nav class="nav-menu">
+                    <button onclick="showCategory('bags')">Bags</button>
+                    <button onclick="showCategory('shoes')">Shoes</button>
+                </nav>
+
+                <div class="category-header">
+                    <div class="category-info">
+                        <div id="category-title"></div>
+                        <div id="category-description"></div>
+                    </div>
+
+                    <div class="sort-dropdown">
+                        <label for="sort-select">Sort:</label>
+                        <select id="sort-select">
+                            <option value="">Default</option>
+                            <option value="az">Alphabetical (A-Z)</option>
+                            <option value="za">Alphabetical (Z-A)</option>
+                            <option value="priceLow">Price (Low to High)</option>
+                            <option value="priceHigh">Price (High to Low)</option>
+                        </select>
+                    </div>
                 </div>
+
+                <div id="product-count"></div>
+
+                <div id="product-list" class="product-grid"></div>
+
+                <button id="load-more" onclick="loadMore()">Load More</button>
+
+            </div>
             </div>
         </main>
         <script src="products_list.js"></script>
