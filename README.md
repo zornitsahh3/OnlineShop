@@ -30,7 +30,7 @@ commerce frameworks/platforms.
 
 ## 1. General Solution Overview
 The project delivers a **front-end-only Product Listing Page** for a fashion e-commerce store (Bags & Shoes), meeting the required sections and behaviour.
-
+![Homepage Screenshot](images/pic1.png)
 - **Sticky header** with logo, store name (“The Fashion Store”), and a **navigation menu** with two categories (Bags, Shoes). Clicking a category loads the corresponding products; Bags is loaded by default.
 - **Left-hand filter sidebar** with:
   - **Color** (checkboxes: Black, Brown)
